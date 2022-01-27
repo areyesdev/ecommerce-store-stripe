@@ -2,13 +2,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
+import { initiateCheckout } from '../lib/payments';
+
 import products from '../products.json';
 
 export default function Home() {
-  console.log(
-    'NEXT_PUBLIC_STRIPE_API_KEY',
-    process.env.NEXT_PUBLIC_STRIPE_API_KEY
-  );
   return (
     <div className={styles.container}>
       <Head>
@@ -28,10 +26,29 @@ export default function Home() {
             const { title, price, description, image, id } = product;
             return (
               <li key={id} className={styles.card}>
-                <img src={image} alt={title} />
-                <h2>{title}</h2>
-                <p>$ {price}</p>
-                <p>{description}</p>
+                <a href='#'>
+                  <img src={image} alt={title} />
+                  <h2>{title}</h2>
+                  <p>$ {price}</p>
+                  <p>{description}</p>
+                </a>
+                <p>
+                  <button
+                    className={styles.button}
+                    onClick={() => {
+                      initiateCheckout({
+                        lineItems: [
+                          {
+                            price: id,
+                            quantity: 1,
+                          },
+                        ],
+                      });
+                    }}
+                  >
+                    Buy
+                  </button>
+                </p>
               </li>
             );
           })}
