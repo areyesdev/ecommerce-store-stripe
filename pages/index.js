@@ -5,7 +5,6 @@ import styles from '../styles/Home.module.css';
 import products from '../products.json';
 
 export default function Home() {
-  console.log('Productos', products);
   return (
     <div className={styles.container}>
       <Head>
@@ -27,7 +26,7 @@ export default function Home() {
               <li key={id} className={styles.card}>
                 <img src={image} alt={title} />
                 <h2>{title}</h2>
-                <p>{price}</p>
+                <p>$ {price}</p>
                 <p>{description}</p>
               </li>
             );
