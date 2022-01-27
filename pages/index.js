@@ -2,7 +2,10 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
+import products from '../products.json';
+
 export default function Home() {
+  console.log('Productos', products);
   return (
     <div className={styles.container}>
       <Head>
@@ -18,33 +21,17 @@ export default function Home() {
         </p>
 
         <ul className={styles.grid}>
-          <li className={styles.card}>
-            <img src='/Images/spacejelly-tshirt.jpg' alt='Space Jelly Tshirt' />
-            <h2>Space Jelly Tshirt</h2>
-            <p>
-              Bring Cosmo the space Jellyfish to your wardrobe with this high
-              quality tshirt.
-            </p>
-          </li>
-
-          <li className={styles.card}>
-            <img
-              src='/Images/spacejelly-sticker.jpg'
-              alt='Space Jelly Stickers'
-            />
-            <h2>Space Jelly Stickers</h2>
-            <p>
-              Add some flare to your laptop with a sticker of Cosmo the Space
-              Jellyfish.
-            </p>
-          </li>
-          <li className={styles.card}>
-            <img src='/Images/spacejelly-combo.jpg' alt='Space Jelly Combo' />
-            <h2>Space Jelly Combo</h2>
-            <p>
-              Show your love for Cosmo with a tshirt and sticker combo pack!
-            </p>
-          </li>
+          {products.map((product) => {
+            const { title, price, description, image, id } = product;
+            return (
+              <li key={id} className={styles.card}>
+                <img src={image} alt={title} />
+                <h2>{title}</h2>
+                <p>{price}</p>
+                <p>{description}</p>
+              </li>
+            );
+          })}
         </ul>
       </main>
 
