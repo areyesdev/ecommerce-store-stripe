@@ -17,6 +17,7 @@ npm run dev
 # or
 yarn dev
 ```
+![ecommerce stripe](https://user-images.githubusercontent.com/34661567/151608243-e7e38b6b-c447-420f-9c24-e477bd1842c8.png)
 
 ## Despliegue 📦
 
