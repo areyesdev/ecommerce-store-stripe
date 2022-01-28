@@ -1,72 +1,89 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import Head from 'next/head'
+import { FaShoppingCart } from 'react-icons/fa';
+import styles from '../styles/Home.module.css'
 
-import { initiateCheckout } from '../lib/payments';
+import { initiateCheckout } from '../lib/payments.js'
+
+import useCart from '../hooks/use-cart.js';
 
 import products from '../products.json';
 
 export default function Home() {
+
+  const { subtotal, quantity, addToCart } = useCart();
+
+  function checkout() {
+    initiateCheckout({
+      lineItems: cartItems.map(({ id, quantity }) => {
+        return {
+          price: id,
+          quantity
+        }
+      })
+    })
+  }
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Space Jelly Shop</title>
-        <link rel='icon' href='/favicon.ico' />
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Space Jelly Shop</h1>
+        <h1 className={styles.title}>
+          Space Jelly Shop
+        </h1>
 
         <p className={styles.description}>
           The best space jellyfish swag on the web!
         </p>
 
+        <ul className={styles.cart}>
+          <li>
+            <strong>Items:</strong> {quantity}
+          </li>
+          <li>
+            <strong>Total:</strong> ${subtotal}
+          </li>
+          <li>
+            <button className={`${styles.button} ${styles.cartButton}`} onClick={checkout}>
+              <FaShoppingCart />
+              Check Out
+            </button>
+          </li>
+        </ul>
+
         <ul className={styles.grid}>
-          {products.map((product) => {
-            const { title, price, description, image, id } = product;
+          {products.map(product => {
+            const { id, title, image, description, price } = product;
             return (
               <li key={id} className={styles.card}>
-                <a href='#'>
+                <a href="#">
                   <img src={image} alt={title} />
-                  <h2>{title}</h2>
-                  <p>$ {price}</p>
-                  <p>{description}</p>
+                  <h3>{ title }</h3>
+                  <p>${ price }</p>
+                  <p>{ description }</p>
+                  <p>
+                    <button className={styles.button} onClick={() => addToCart({ id })}>Buy</button>
+                  </p>
                 </a>
-                <p>
-                  <button
-                    className={styles.button}
-                    onClick={() => {
-                      initiateCheckout({
-                        lineItems: [
-                          {
-                            price: id,
-                            quantity: 1,
-                          },
-                        ],
-                      });
-                    }}
-                  >
-                    Buy
-                  </button>
-                </p>
               </li>
-            );
+            )
           })}
         </ul>
       </main>
 
       <footer className={styles.footer}>
         <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Powered by{' '}
-          <span className={styles.logo}>
-            <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
-          </span>
+          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
       </footer>
     </div>
-  );
+  )
 }
