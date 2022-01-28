@@ -1,27 +1,13 @@
 import Head from 'next/head'
-import { FaShoppingCart } from 'react-icons/fa';
 import styles from '../styles/Home.module.css'
 
-import { initiateCheckout } from '../lib/payments.js'
-
-import useCart from '../hooks/use-cart.js';
+import { useCart } from '../hooks/use-cart.js';
 
 import products from '../products.json';
 
 export default function Home() {
 
-  const { subtotal, quantity, addToCart } = useCart();
-
-  function checkout() {
-    initiateCheckout({
-      lineItems: cartItems.map(({ id, quantity }) => {
-        return {
-          price: id,
-          quantity
-        }
-      })
-    })
-  }
+  const { addToCart } = useCart();
 
   return (
     <div className={styles.container}>
@@ -31,28 +17,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Space Jelly Shop
-        </h1>
-
         <p className={styles.description}>
           The best space jellyfish swag on the web!
         </p>
-
-        <ul className={styles.cart}>
-          <li>
-            <strong>Items:</strong> {quantity}
-          </li>
-          <li>
-            <strong>Total:</strong> ${subtotal}
-          </li>
-          <li>
-            <button className={`${styles.button} ${styles.cartButton}`} onClick={checkout}>
-              <FaShoppingCart />
-              Check Out
-            </button>
-          </li>
-        </ul>
 
         <ul className={styles.grid}>
           {products.map(product => {
